@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "47050562011",
+    "project_id": "shalatku",
+    "storage_bucket": "shalatku.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:47050562011:android:eb968499e29c6f615f6ffe",
+        "android_client_info": {
+          "package_name": "com.example.shalatku"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2Ol5ZV4EA2N-DBocWIW7liAwyZd0Q7rM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
