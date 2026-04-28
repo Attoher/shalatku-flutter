@@ -19,32 +19,47 @@ Tonton demo presentasi aplikasi di sini:
 
 ## 📸 Screenshots
 
-### Login & Register
+### 🔐 Autentikasi
 | Login | Register |
 |-------|----------|
 | <img src="./screenshots/Login.jpeg" width="180" alt="Login Screen"/> | <img src="./screenshots/Register.jpeg" width="180" alt="Register Screen"/> |
 
-### Beranda
-| Home | Home (Alt) |
-|------|-----------|
+### 🏠 Beranda
+| Home - View 1 | Home - View 2 |
+|---------------|--------------|
 | <img src="./screenshots/Home.jpeg" width="180" alt="Home Screen"/> | <img src="./screenshots/Home2.jpeg" width="180" alt="Home Screen 2"/> |
-| Quick Access | - |
-| <img src="./screenshots/Quick Acces.jpeg" width="180" alt="Quick Access"/> | - |
 
-### Jadwal Shalat
-| Jadwal Shalat | Jadwal Shalat (Alt) |
-|---------------|-------------------|
+### ⚡ Akses Cepat
+| Quick Access |
+|--------------|
+| <img src="./screenshots/Quick Acces.jpeg" width="180" alt="Quick Access"/> |
+
+### 🕌 Jadwal Shalat
+| Jadwal Shalat - View 1 | Jadwal Shalat - View 2 |
+|------------------------|------------------------|
 | <img src="./screenshots/Jadwal Shalat.jpeg" width="180" alt="Prayer Times"/> | <img src="./screenshots/Jadwal Shalat2.jpeg" width="180" alt="Prayer Times 2"/> |
 
-### Fitur Lainnya
-| Arah Kiblat | Tambah Ibadah |
-|------------|--------------|
-| <img src="./screenshots/Qibla.jpeg" width="180" alt="Qibla Direction"/> | <img src="./screenshots/Tambah Ibadah.jpeg" width="180" alt="Add Worship Log"/> |
+### 🧭 Arah Kiblat
+| Arah Kiblat |
+|------------|
+| <img src="./screenshots/Qibla.jpeg" width="180" alt="Qibla Direction"/> |
 
-| Log Ibadah | Statistik |
-|-----------|-----------|
-| <img src="./screenshots/Log Ibadah.jpeg" width="180" alt="Worship Logs"/> | <img src="./screenshots/Statistik.jpeg" width="180" alt="Statistics"/> |
+### 📿 Log Ibadah
+| Tambah Ibadah | Log Ibadah |
+|---------------|-----------|
+| <img src="./screenshots/Tambah Ibadah.jpeg" width="180" alt="Add Worship Log"/> | <img src="./screenshots/Log Ibadah.jpeg" width="180" alt="Worship Logs"/> |
 
+### 📊 Statistik & Laporan
+| Statistik |
+|-----------|
+| <img src="./screenshots/Statistik.jpeg" width="180" alt="Statistics"/> |
+
+### 🔔 Notifikasi
+| Notifikasi |
+|-----------|
+| <img src="./screenshots/Notifs.jpeg" width="180" alt="Notifications"/> |
+
+### 👤 Profil & Pengaturan
 | Profil |
 |--------|
 | <img src="./screenshots/Profile.jpeg" width="180" alt="Profile Settings"/> |
@@ -235,7 +250,51 @@ lib/
 
 ---
 
-## 🔐 Keamanan
+## � Sistem Notifikasi
+
+### Cara Kerja
+
+#### 1. **Notifikasi Adzan (8 Waktu Shalat)**
+- **Otomatis dijadwalkan** saat app dimulai untuk 8 waktu shalat: Imsak, Subuh, Terbit, Dhuha, Dzuhur, Ashar, Maghrib, Isya
+- **Jadwal realtime:** Notifikasi disesuaikan dengan lokasi dan zona waktu pengguna (auto-detect Asia/Jakarta)
+- **Smart scheduling:** Jika app berjalan saat/dekat waktu shalat, notifikasi tetap dijadwalkan dengan buffer 10 detik ke depan
+- **Notifikasi berulang:** Hanya muncul sekali per waktu shalat, tapi di-reschedule setiap hari baru
+
+#### 2. **Notifikasi Pengingat Ibadah**
+- Notifikasi custom ketika pengguna menambah reminder ibadah
+- Dapat dikustomisasi dengan pesan personal
+- Terintegrasi dengan Log Ibadah
+
+### Fitur Notifikasi
+
+| Fitur | Deskripsi |
+|-------|-----------|
+| **Aktif/Nonaktif** | Toggle notifikasi di halaman Profil (setting tersimpan via SharedPreferences) |
+| **8 Waktu Shalat** | Subuh, Terbit, Dhuha, Dzuhur, Ashar, Maghrib, Isya + Imsak |
+| **Sound & Vibration** | Notifikasi dengan suara dan getar (customizable di system settings) |
+| **Auto-reschedule** | Otomatis reschedule setiap hari jam 00:00 |
+| **Error Handling** | Fallback jika jadwal tidak bisa dijadwalkan (scheduled time sudah berlalu) |
+| **Timezone Support** | Menggunakan timezone lokal device (Asia/Jakarta by default) |
+
+### Troubleshooting Notifikasi
+
+**Notifikasi tidak muncul?**
+1. Cek setting notifikasi di halaman Profil (pastikan toggle ON)
+2. Cek permission di System Settings > Notifications (izinkan "ShalatKu")
+3. Pastikan waktu device akurat
+4. Restart app atau tunggu notifikasi re-schedule di tengah malam
+
+**Notifikasi muncul terlambat?**
+- Ini normal jika device dalam deep sleep. Android akan deliver notifikasi saat device bangun.
+- Jika penting, gunakan scheduled notifications dengan mode exact alarm (requires SCHEDULE_EXACT_ALARM permission).
+
+**Setting notifikasi tidak tersimpan?**
+- Pastikan app punya permission untuk akses SharedPreferences
+- Coba clear app cache: Settings > Apps > ShalatKu > Storage > Clear Cache
+
+---
+
+## �🔐 Keamanan
 
 - **Firebase Rules:** User hanya bisa akses data milik mereka
 - **Auth:** Email/Password dengan Firebase Authentication
