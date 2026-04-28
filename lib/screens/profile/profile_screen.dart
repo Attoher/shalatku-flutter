@@ -100,18 +100,6 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   const Divider(height: 1),
                   _SettingsTile(
-                    icon: Icons.notifications_active,
-                    title: 'Test Notifikasi',
-                    subtitle: 'Tampilkan notifikasi test',
-                    onTap: () {
-                      NotificationService.showTestNotification();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Test notification sent!')),
-                      );
-                    },
-                  ),
-                  const Divider(height: 1),
-                  _SettingsTile(
                     icon: Icons.info_outline,
                     title: 'Tentang ShalatKu',
                     subtitle: 'Versi 1.0.0',

@@ -7,6 +7,50 @@ Aplikasi Flutter untuk jadwal shalat, arah kiblat, dan tracker ibadah harian.
 
 ---
 
+## 🎬 Demo Video
+
+Tonton demo presentasi aplikasi di sini:
+
+[![ShalatKu Demo](https://img.youtube.com/vi/cBjhd9NWtc8/maxresdefault.jpg)](https://youtu.be/cBjhd9NWtc8 "ShalatKu - Prayer Times & Worship Tracker App")
+
+**Link:** https://youtu.be/cBjhd9NWtc8
+
+---
+
+## 📸 Screenshots
+
+### Login & Register
+| Login | Register |
+|-------|----------|
+| <img src="./screenshots/Login.jpeg" width="180" alt="Login Screen"/> | <img src="./screenshots/Register.jpeg" width="180" alt="Register Screen"/> |
+
+### Beranda
+| Home | Home (Alt) |
+|------|-----------|
+| <img src="./screenshots/Home.jpeg" width="180" alt="Home Screen"/> | <img src="./screenshots/Home2.jpeg" width="180" alt="Home Screen 2"/> |
+| Quick Access | - |
+| <img src="./screenshots/Quick Acces.jpeg" width="180" alt="Quick Access"/> | - |
+
+### Jadwal Shalat
+| Jadwal Shalat | Jadwal Shalat (Alt) |
+|---------------|-------------------|
+| <img src="./screenshots/Jadwal Shalat.jpeg" width="180" alt="Prayer Times"/> | <img src="./screenshots/Jadwal Shalat2.jpeg" width="180" alt="Prayer Times 2"/> |
+
+### Fitur Lainnya
+| Arah Kiblat | Tambah Ibadah |
+|------------|--------------|
+| <img src="./screenshots/Qibla.jpeg" width="180" alt="Qibla Direction"/> | <img src="./screenshots/Tambah Ibadah.jpeg" width="180" alt="Add Worship Log"/> |
+
+| Log Ibadah | Statistik |
+|-----------|-----------|
+| <img src="./screenshots/Log Ibadah.jpeg" width="180" alt="Worship Logs"/> | <img src="./screenshots/Statistik.jpeg" width="180" alt="Statistics"/> |
+
+| Profil |
+|--------|
+| <img src="./screenshots/Profile.jpeg" width="180" alt="Profile Settings"/> |
+
+---
+
 ## ✨ Fitur
 
 | Fitur | Deskripsi |
@@ -22,6 +66,21 @@ Aplikasi Flutter untuk jadwal shalat, arah kiblat, dan tracker ibadah harian.
 | ⚙️ **Toggle Notifikasi** | Aktif/nonaktif notifikasi di Profil (persisten) |
 | 🌍 **Auto Reload** | Otomatis reload jadwal shalat saat masuk hari baru |
 | 👤 **Profil** | Ringkasan statistik & pengaturan notifikasi |
+
+---
+
+## ✅ Mini Project Requirements (40%)
+
+Semua requirement sudah terpenuhi:
+
+| Requirement | Status | Detail |
+|------------|--------|--------|
+| **CRUD dengan Relational Database** ✓ | 10% | CRUD ibadah log di Firestore + relasi dengan user auth |
+| **Firebase Authentication** ✓ | 5% | Login, Register, Logout dengan Firebase Auth |
+| **Menyimpan Data ke Firebase** ✓ | 5% | Cloud Firestore untuk ibadah logs & user preferences |
+| **Notifikasi** ✓ | 5% | Notifikasi adzan otomatis + pengingat ibadah custom |
+| **Smartphone Resources** ✓ | 5% | GPS (jadwal shalat) + Sensor Kompas (arah kiblat) |
+| **Demo Video & GitHub** ✓ | 10% | Video demo: https://youtu.be/cBjhd9NWtc8 + GitHub repository |
 
 ---
 

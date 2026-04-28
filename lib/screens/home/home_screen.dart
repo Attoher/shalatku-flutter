@@ -150,7 +150,7 @@ class _HomePageState extends State<_HomePage> with WidgetsBindingObserver {
                     colors: [AppTheme.primary, Color(0xFF2E7D32)],
                   ),
                 ),
-                padding: const EdgeInsets.fromLTRB(20, 75, 20, 35),
+                padding: const EdgeInsets.fromLTRB(20, 75, 20, 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -177,7 +177,7 @@ class _HomePageState extends State<_HomePage> with WidgetsBindingObserver {
                       ],
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(8),
@@ -190,7 +190,7 @@ class _HomePageState extends State<_HomePage> with WidgetsBindingObserver {
                           Expanded(
                             child: Text(
                               'Jangan lupa dzikir setiap hari',
-                              style: TextStyle(color: Colors.white70, fontSize: 12),
+                              style: TextStyle(color: Colors.white70, fontSize: 11),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
