@@ -189,7 +189,7 @@ class _HomePageState extends State<_HomePage> with WidgetsBindingObserver {
                           SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              'Jangan lupa dzikir setiap hari',
+                              'Jangan lupa beribadah kepada allah setiap hari',
                               style: TextStyle(color: Colors.white70, fontSize: 11),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,

@@ -118,7 +118,7 @@ class NotificationService {
     
     // Map prayer names to descriptions
     const prayerDescriptions = {
-      'Imsak': 'Jangan lupa berbuka puasa!',
+      'Imsak': 'Waktu Imsak selamat berpuasa bagi yang menunaikan',
       'Subuh': 'Shalat Subuh telah tiba',
       'Terbit': 'Matahari terbit',
       'Dhuha': 'Shalat Dhuha',
@@ -176,7 +176,7 @@ class NotificationService {
     await _plugin.show(
       99,
       'Pengingat Ibadah',
-      'Luangkan waktu untuk berdzikir hari ini',
+      'Luangkan waktu untuk beribadah hari ini',
       const NotificationDetails(
         android: AndroidNotificationDetails(
           'ibadah_channel',
@@ -188,33 +188,4 @@ class NotificationService {
     );
   }
 
-  /// Test notification - shows immediately to verify notifications work
-  static Future<void> showTestNotification() async {
-    print('Showing test notification immediately...');
-    try {
-      await _plugin.show(
-        9999,
-        'TEST: ShalatKu Notification',
-        'If you see this, notifications are working! Current time: ${DateTime.now()}',
-        const NotificationDetails(
-          android: AndroidNotificationDetails(
-            'adzan_channel',
-            'Jadwal Shalat',
-            channelDescription: 'Notifikasi jadwal shalat dan waktu penting',
-            importance: Importance.max,
-            priority: Priority.high,
-            playSound: true,
-            enableVibration: true,
-          ),
-          iOS: DarwinNotificationDetails(
-            presentAlert: true,
-            presentSound: true,
-          ),
-        ),
-      );
-      print('Test notification showed successfully');
-    } catch (e) {
-      print('ERROR showing test notification: $e');
-    }
-  }
 }
