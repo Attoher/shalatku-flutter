@@ -9,6 +9,7 @@ import '../ibadah/ibadah_log_screen.dart';
 import '../prayer_times/prayer_times_screen.dart';
 import '../qibla/qibla_screen.dart';
 import '../profile/profile_screen.dart';
+import '../../services/notification_service.dart';
 import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -54,23 +55,38 @@ class _HomePage extends StatefulWidget {
   State<_HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<_HomePage> {
+class _HomePageState extends State<_HomePage> with WidgetsBindingObserver {
   late DateTime _lastLoadDate;
   late Timer _timeUpdateTimer;
+  late Timer _prayerCheckTimer;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _lastLoadDate = DateTime.now();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<PrayerProvider>().loadData();
     });
     _startDayChangeListener();
     
-    // Update UI setiap detik untuk sinkronisasi jam
+    // Update UI setiap detik untuk sinkronisasi jam dan refresh status
     _timeUpdateTimer = Timer.periodic(const Duration(seconds: 1), (_) {
       if (mounted) {
+        // Refresh prayer status to update isPassed and isNext
+        context.read<PrayerProvider>().refreshPrayerStatus();
         setState(() {});
+      }
+    });
+
+    // Check prayer notifications setiap menit
+    _prayerCheckTimer = Timer.periodic(const Duration(minutes: 1), (_) {
+      if (mounted) {
+        final prayer = context.read<PrayerProvider>();
+        if (prayer.prayerTimes.isNotEmpty) {
+          print('Checking prayer notifications...');
+          NotificationService.checkAndShowPrayerNotifications(prayer.prayerTimes);
+        }
       }
     });
   }
@@ -78,7 +94,22 @@ class _HomePageState extends State<_HomePage> {
   @override
   void dispose() {
     _timeUpdateTimer.cancel();
+    _prayerCheckTimer.cancel();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      print('App resumed - check prayer notifications');
+      final prayer = context.read<PrayerProvider>();
+      if (prayer.prayerTimes.isNotEmpty) {
+        NotificationService.checkAndShowPrayerNotifications(prayer.prayerTimes);
+      }
+    } else if (state == AppLifecycleState.paused) {
+      print('App paused/moved to background');
+    }
   }
 
   void _startDayChangeListener() {
@@ -330,16 +361,17 @@ class _CountdownTimerState extends State<_CountdownTimer> {
   @override
   void initState() {
     super.initState();
-    _remaining = widget.provider.timeUntilNext;
-    _tick();
+    _updateRemaining();
   }
 
-  void _tick() async {
-    while (mounted) {
-      await Future.delayed(const Duration(seconds: 1));
-      if (!mounted) break;
-      setState(() => _remaining = widget.provider.timeUntilNext);
-    }
+  void _updateRemaining() {
+    setState(() => _remaining = widget.provider.timeUntilNext);
+  }
+
+  @override
+  void didUpdateWidget(covariant _CountdownTimer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _updateRemaining();
   }
 
   @override

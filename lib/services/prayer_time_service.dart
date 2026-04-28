@@ -90,4 +90,29 @@ class PrayerTimeService {
     final diff = next.time.difference(DateTime.now());
     return diff.isNegative ? Duration.zero : diff;
   }
+
+  /// Check if prayer times need to be updated (day changed or last prayer passed)
+  bool shouldUpdatePrayerTimes(List<PrayerTimeModel> times) {
+    if (times.isEmpty) return false;
+    final lastPrayer = times.last;
+    // Update if the last prayer time has passed
+    return DateTime.now().isAfter(lastPrayer.time);
+  }
+
+  /// Refresh prayer times with updated isPassed and isNext status
+  List<PrayerTimeModel> refreshPrayerStatus(List<PrayerTimeModel> times) {
+    final now = DateTime.now();
+    bool nextSet = false;
+    return times.map((t) {
+      final passed = now.isAfter(t.time);
+      final isNext = !passed && !nextSet;
+      if (isNext) nextSet = true;
+      return PrayerTimeModel(
+        name: t.name,
+        time: t.time,
+        isPassed: passed,
+        isNext: isNext,
+      );
+    }).toList();
+  }
 }

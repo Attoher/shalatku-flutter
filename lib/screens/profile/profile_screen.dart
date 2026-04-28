@@ -4,6 +4,7 @@ import '../../providers/auth_provider.dart';
 import '../../providers/ibadah_provider.dart';
 import '../../utils/theme.dart';
 import '../auth/login_screen.dart';
+import '../../services/notification_service.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -96,6 +97,18 @@ class ProfileScreen extends StatelessWidget {
                       value: auth.notificationsEnabled,
                       onChanged: (_) => context.read<AuthProvider>().toggleNotifications(),
                     ),
+                  ),
+                  const Divider(height: 1),
+                  _SettingsTile(
+                    icon: Icons.notifications_active,
+                    title: 'Test Notifikasi',
+                    subtitle: 'Tampilkan notifikasi test',
+                    onTap: () {
+                      NotificationService.showTestNotification();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Test notification sent!')),
+                      );
+                    },
                   ),
                   const Divider(height: 1),
                   _SettingsTile(

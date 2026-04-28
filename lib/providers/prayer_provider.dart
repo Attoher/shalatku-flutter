@@ -48,12 +48,20 @@ class PrayerProvider extends ChangeNotifier {
         _position!.longitude,
       );
       
-      // Schedule notifications
-      await NotificationService.schedulePrayerNotifications(_prayerTimes);
+      // Check prayer notifications immediately
+      await NotificationService.checkAndShowPrayerNotifications(_prayerTimes);
     } catch (e) {
       _error = e.toString().replaceAll('Exception: ', '');
     } finally {
       _loading = false;
+      notifyListeners();
+    }
+  }
+
+  /// Refresh prayer status (called periodically to update isPassed and isNext)
+  Future<void> refreshPrayerStatus() async {
+    if (_prayerTimes.isNotEmpty) {
+      _prayerTimes = _prayerService.refreshPrayerStatus(_prayerTimes);
       notifyListeners();
     }
   }
