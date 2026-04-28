@@ -52,29 +52,60 @@ class NotificationService {
     for (int i = 0; i < prayers.length; i++) {
       final prayer = prayers[i];
       if (prayer.time.isAfter(DateTime.now())) {
-        await _plugin.zonedSchedule(
-          i,
-          '🕌 ${prayer.name}',
-          prayerEmoji[prayer.name] ?? 'Waktunya shalat ${prayer.name}',
-          tz.TZDateTime.from(prayer.time, tz.local),
-          const NotificationDetails(
-            android: AndroidNotificationDetails(
-              'adzan_channel',
-              'Jadwal Shalat',
-              channelDescription: 'Notifikasi jadwal shalat dan waktu penting',
-              importance: Importance.max,
-              priority: Priority.high,
-              playSound: true,
+        try {
+          await _plugin.zonedSchedule(
+            i,
+            '🕌 ${prayer.name}',
+            prayerEmoji[prayer.name] ?? 'Waktunya shalat ${prayer.name}',
+            tz.TZDateTime.from(prayer.time, tz.local),
+            const NotificationDetails(
+              android: AndroidNotificationDetails(
+                'adzan_channel',
+                'Jadwal Shalat',
+                channelDescription: 'Notifikasi jadwal shalat dan waktu penting',
+                importance: Importance.max,
+                priority: Priority.high,
+                playSound: true,
+              ),
+              iOS: DarwinNotificationDetails(
+                presentAlert: true,
+                presentSound: true,
+              ),
             ),
-            iOS: DarwinNotificationDetails(
-              presentAlert: true,
-              presentSound: true,
-            ),
-          ),
-          androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-          uiLocalNotificationDateInterpretation:
-              UILocalNotificationDateInterpretation.absoluteTime,
-        );
+            androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+            uiLocalNotificationDateInterpretation:
+                UILocalNotificationDateInterpretation.absoluteTime,
+          );
+        } catch (e) {
+          // Fallback ke inexact alarm jika exact alarm tidak diizinkan
+          try {
+            await _plugin.zonedSchedule(
+              i,
+              '🕌 ${prayer.name}',
+              prayerEmoji[prayer.name] ?? 'Waktunya shalat ${prayer.name}',
+              tz.TZDateTime.from(prayer.time, tz.local),
+              const NotificationDetails(
+                android: AndroidNotificationDetails(
+                  'adzan_channel',
+                  'Jadwal Shalat',
+                  channelDescription: 'Notifikasi jadwal shalat dan waktu penting',
+                  importance: Importance.max,
+                  priority: Priority.high,
+                  playSound: true,
+                ),
+                iOS: DarwinNotificationDetails(
+                  presentAlert: true,
+                  presentSound: true,
+                ),
+              ),
+              androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+              uiLocalNotificationDateInterpretation:
+                  UILocalNotificationDateInterpretation.absoluteTime,
+            );
+          } catch (fallbackError) {
+            print('Error scheduling notification: $fallbackError');
+          }
+        }
       }
     }
   }

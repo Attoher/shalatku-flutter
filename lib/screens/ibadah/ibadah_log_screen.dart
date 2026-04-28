@@ -48,7 +48,7 @@ class _IbadahLogScreenState extends State<IbadahLogScreen>
     });
   }
 
-  void _confirmDelete(BuildContext ctx, String id) {
+  void _confirmDelete(BuildContext ctx, String uid, String id) {
     showDialog(
       context: ctx,
       builder: (_) => AlertDialog(
@@ -59,7 +59,7 @@ class _IbadahLogScreenState extends State<IbadahLogScreen>
           TextButton(
             onPressed: () {
               Navigator.pop(ctx);
-              ctx.read<IbadahProvider>().deleteIbadah(id);
+              ctx.read<IbadahProvider>().deleteIbadah(uid, id);
             },
             child: const Text('Hapus', style: TextStyle(color: Colors.red)),
           ),
@@ -149,7 +149,7 @@ class _IbadahLogScreenState extends State<IbadahLogScreen>
                       ),
                       ...entry.value.map((log) => IbadahTile(
                             log: log,
-                            onDelete: () => _confirmDelete(ctx, log.id!),
+                            onDelete: () => _confirmDelete(ctx, uid, log.id!),
                             onEdit: () => _openAddSheet(log),
                           )),
                     ],

@@ -5,8 +5,29 @@ import 'dart:math' as math;
 import '../../providers/prayer_provider.dart';
 import '../../utils/theme.dart';
 
-class QiblaScreen extends StatelessWidget {
+class QiblaScreen extends StatefulWidget {
   const QiblaScreen({super.key});
+
+  @override
+  State<QiblaScreen> createState() => _QiblaScreenState();
+}
+
+class _QiblaScreenState extends State<QiblaScreen> {
+  double _smoothedHeading = 0;
+  final double _filterFactor = 0.15; // Low-pass filter (0-1, lower = smoother)
+
+  double _smoothHeading(double newHeading) {
+    // Normalize angle difference to handle 0/360 wraparound
+    double diff = newHeading - _smoothedHeading;
+    if (diff > 180) diff -= 360;
+    if (diff < -180) diff += 360;
+    
+    _smoothedHeading += diff * _filterFactor;
+    if (_smoothedHeading < 0) _smoothedHeading += 360;
+    if (_smoothedHeading >= 360) _smoothedHeading -= 360;
+    
+    return _smoothedHeading;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +58,7 @@ class QiblaScreen extends StatelessWidget {
                   builder: (context, snapshot) {
                     double compassHeading = 0;
                     if (snapshot.hasData && snapshot.data!.heading != null) {
-                      compassHeading = snapshot.data!.heading!;
+                      compassHeading = _smoothHeading(snapshot.data!.heading!);
                     }
 
                     final qiblaAngle = prayer.qiblaDirection;

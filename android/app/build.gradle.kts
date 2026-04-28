@@ -19,9 +19,14 @@ android {
         isCoreLibraryDesugaringEnabled = true
     }
 
-    // Suppress Java 8 obsolete warnings
+    // Suppress Java 8 obsolete warnings and deprecation warnings
     tasks.withType<JavaCompile> {
-        options.compilerArgs.add("-Xlint:-options")
+        options.compilerArgs.addAll(
+            listOf(
+                "-Xlint:-options",
+                "-Xlint:-deprecation"
+            )
+        )
     }
 
     kotlinOptions {

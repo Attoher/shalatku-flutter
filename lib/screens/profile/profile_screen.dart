@@ -110,6 +110,36 @@ class ProfileScreen extends StatelessWidget {
                       children: [
                         const SizedBox(height: 16),
                         const Text('Aplikasi jadwal shalat, arah kiblat, dan tracker ibadah harian.'),
+                        const SizedBox(height: 24),
+                        const Text(
+                          'API & Library:',
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          '• Prayer Times: Adhan Package\n'
+                          '• Notifications: flutter_local_notifications\n'
+                          '• Charts: fl_chart\n'
+                          '• Location & GPS: geolocator\n'
+                          '• Compass: flutter_compass\n'
+                          '• Database: Cloud Firestore (Firebase)\n'
+                          '• Authentication: Firebase Auth\n'
+                          '• State Management: Provider\n'
+                          '• Localization: intl\n'
+                          '• Preferences: shared_preferences',
+                          style: TextStyle(fontSize: 12, color: AppTheme.primary),
+                        ),
+                        const SizedBox(height: 16),
+                        const Text(
+                          'Kontribusi API:',
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                        ),
+                        const SizedBox(height: 8),
+                        const Text(
+                          'Qibla Direction: Geodesy mathematics\n'
+                          'Prayer Times: Accurate Islamic calendar calculation',
+                          style: TextStyle(fontSize: 12, color: AppTheme.primary),
+                        ),
                       ],
                     ),
                   ),

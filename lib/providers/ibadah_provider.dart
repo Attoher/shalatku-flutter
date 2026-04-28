@@ -21,9 +21,9 @@ class IbadahProvider extends ChangeNotifier {
   Stream<List<IbadahLog>> watchDailyLogs(String userId, DateTime date) =>
       _service.getIbadahByDate(userId, date);
 
-  Future<void> addIbadah(IbadahLog log) => _service.addIbadah(log);
-  Future<void> updateIbadah(IbadahLog log) => _service.updateIbadah(log);
-  Future<void> deleteIbadah(String id) => _service.deleteIbadah(id);
+  Future<void> addIbadah(String userId, IbadahLog log) => _service.addIbadah(userId, log);
+  Future<void> updateIbadah(String userId, IbadahLog log) => _service.updateIbadah(userId, log);
+  Future<void> deleteIbadah(String userId, String id) => _service.deleteIbadah(userId, id);
   Future<bool> hasSameTypeOnDate(String userId, String type, DateTime date, {String? excludeId}) =>
       _service.hasSameTypeOnDate(userId, type, date, excludeId: excludeId);
 

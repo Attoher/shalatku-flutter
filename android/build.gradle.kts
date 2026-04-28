@@ -10,7 +10,8 @@ allprojects {
         targetCompatibility = JavaVersion.VERSION_11.toString()
         options.compilerArgs.addAll(
             listOf(
-                "-Xlint:-options" // Suppress obsolete Java 8 warnings
+                "-Xlint:-options", // Suppress obsolete Java 8 warnings
+                "-Xlint:-deprecation" // Suppress deprecation warnings
             )
         )
     }

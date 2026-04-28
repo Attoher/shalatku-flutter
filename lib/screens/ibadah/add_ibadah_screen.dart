@@ -118,13 +118,13 @@ class _AddIbadahScreenState extends State<AddIbadahScreen> {
       }
 
       if (isEditing) {
-        await provider.updateIbadah(widget.existing!.copyWith(
+        await provider.updateIbadah(userId, widget.existing!.copyWith(
           type: finalType,
           notes: _notesCtrl.text.trim(),
           date: _selectedDate,
         ));
       } else {
-        await provider.addIbadah(IbadahLog(
+        await provider.addIbadah(userId, IbadahLog(
           userId: userId,
           type: finalType,
           notes: _notesCtrl.text.trim(),
