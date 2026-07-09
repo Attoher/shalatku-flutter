@@ -11,7 +11,8 @@ allprojects {
         options.compilerArgs.addAll(
             listOf(
                 "-Xlint:-options", // Suppress obsolete Java 8 warnings
-                "-Xlint:-deprecation" // Suppress deprecation warnings
+                "-Xlint:-deprecation", // Suppress deprecation warnings
+                "-Xlint:-unchecked" // Suppress unchecked warnings
             )
         )
     }

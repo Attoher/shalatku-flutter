@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/prayer_time_model.dart';
-import '../utils/theme.dart';
 
 class PrayerCard extends StatelessWidget {
   final PrayerTimeModel prayer;
@@ -13,16 +12,16 @@ class PrayerCard extends StatelessWidget {
     final timeStr = DateFormat('HH:mm').format(prayer.time);
 
     Color bgColor = Colors.white;
-    Color textColor = AppTheme.textDark;
+    Color textColor = Theme.of(context).colorScheme.onSurface;
     Widget? badge;
 
     if (prayer.isNext) {
-      bgColor = AppTheme.primary;
+      bgColor = Theme.of(context).primaryColor;
       textColor = Colors.white;
       badge = Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
         decoration: BoxDecoration(
-          color: AppTheme.accent,
+          color: Theme.of(context).colorScheme.secondary,
           borderRadius: BorderRadius.circular(8),
         ),
         child: const Text(
@@ -46,7 +45,7 @@ class PrayerCard extends StatelessWidget {
         color: bgColor,
         borderRadius: BorderRadius.circular(16),
         boxShadow: prayer.isNext
-            ? [BoxShadow(color: AppTheme.primary.withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))]
+            ? [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))]
             : null,
       ),
       child: Column(

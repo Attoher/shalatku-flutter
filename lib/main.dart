@@ -7,9 +7,11 @@ import 'firebase_options.dart';
 import 'providers/auth_provider.dart';
 import 'providers/ibadah_provider.dart';
 import 'providers/prayer_provider.dart';
+import 'providers/quran_search_provider.dart';
+import 'providers/quran_provider.dart';
 import 'screens/splash_screen.dart';
 import 'services/notification_service.dart';
-import 'utils/theme.dart';
+import 'providers/theme_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,12 +38,19 @@ class ShalatKuApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => IbadahProvider()),
         ChangeNotifierProvider(create: (_) => PrayerProvider()),
+        ChangeNotifierProvider(create: (_) => QuranSearchProvider()),
+        ChangeNotifierProvider(create: (_) => QuranProvider()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
       ],
-      child: MaterialApp(
-        title: 'ShalatKu',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.lightTheme,
-        home: const SplashScreen(),
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, child) {
+          return MaterialApp(
+            title: 'ShalatKu',
+            debugShowCheckedModeBanner: false,
+            theme: themeProvider.currentTheme,
+            home: const SplashScreen(),
+          );
+        },
       ),
     );
   }

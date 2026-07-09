@@ -14,14 +14,16 @@ class LocationService {
     if (permission == LocationPermission.deniedForever) return null;
 
     return await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
+      locationSettings: const LocationSettings(
+        accuracy: LocationAccuracy.high,
+      ),
     );
   }
 
   /// Calculate Qibla direction in degrees from North (clockwise)
   double calculateQiblaDirection(double lat, double lng) {
-    const double kaabaLat = 21.3891;
-    const double kaabaLng = 39.8579;
+    const double kaabaLat = 21.4225;
+    const double kaabaLng = 39.8262;
     const double toRad = math.pi / 180;
     const double toDeg = 180 / math.pi;
 

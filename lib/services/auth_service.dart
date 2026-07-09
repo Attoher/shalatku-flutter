@@ -5,7 +5,7 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  Stream<User?> get authStateChanges => _auth.authStateChanges();
+  Stream<User?> get userChanges => _auth.userChanges();
   User? get currentUser => _auth.currentUser;
 
   Future<UserCredential> signUp({
@@ -18,6 +18,7 @@ class AuthService {
       password: password,
     );
     await cred.user!.updateDisplayName(name);
+    await cred.user!.reload();
     await _db.collection('users').doc(cred.user!.uid).set({
       'name': name,
       'email': email,

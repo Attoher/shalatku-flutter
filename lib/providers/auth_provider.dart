@@ -19,7 +19,7 @@ class AuthProvider extends ChangeNotifier {
 
   AuthProvider() {
     _loadPreferences();
-    _authService.authStateChanges.listen((user) {
+    _authService.userChanges.listen((user) {
       _user = user;
       notifyListeners();
     });
@@ -29,6 +29,15 @@ class AuthProvider extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     _notificationsEnabled = prefs.getBool('notificationsEnabled') ?? true;
     notifyListeners();
+  }
+
+  Future<void> syncNotificationsPermission(bool isGranted) async {
+    if (!isGranted && _notificationsEnabled) {
+      _notificationsEnabled = false;
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('notificationsEnabled', false);
+      notifyListeners();
+    }
   }
 
   Future<void> toggleNotifications() async {

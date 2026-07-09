@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
-import '../../utils/theme.dart';
 import './login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -50,71 +49,89 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Daftar Akun')),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('Buat Akun Baru', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: AppTheme.primary)),
-                const SizedBox(height: 8),
-                const Text('Mulai perjalanan ibadahmu', style: TextStyle(color: AppTheme.textGrey)),
-                const SizedBox(height: 32),
-                TextFormField(
-                  controller: _nameCtrl,
-                  decoration: const InputDecoration(labelText: 'Nama Lengkap', prefixIcon: Icon(Icons.person_outlined)),
-                  validator: (v) => v!.isEmpty ? 'Nama wajib diisi' : null,
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: _emailCtrl,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(labelText: 'Email', prefixIcon: Icon(Icons.email_outlined)),
-                  validator: (v) => v!.isEmpty ? 'Email wajib diisi' : null,
-                ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: _passCtrl,
-                  obscureText: _obscure,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    prefixIcon: const Icon(Icons.lock_outlined),
-                    suffixIcon: IconButton(
-                      icon: Icon(_obscure ? Icons.visibility_off : Icons.visibility),
-                      onPressed: () => setState(() => _obscure = !_obscure),
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: SafeArea(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                padding: const EdgeInsets.all(24),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: IntrinsicHeight(
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Buat Akun Baru',
+                              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor)),
+                          const SizedBox(height: 8),
+                          Text('Mulai perjalanan ibadahmu', style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                          const SizedBox(height: 32),
+                          TextFormField(
+                            controller: _nameCtrl,
+                            decoration: const InputDecoration(labelText: 'Nama Lengkap', prefixIcon: Icon(Icons.person_outlined)),
+                            validator: (v) => v!.isEmpty ? 'Nama wajib diisi' : null,
+                          ),
+                          const SizedBox(height: 16),
+                          TextFormField(
+                            controller: _emailCtrl,
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: const InputDecoration(labelText: 'Email', prefixIcon: Icon(Icons.email_outlined)),
+                            validator: (v) => v!.isEmpty ? 'Email wajib diisi' : null,
+                          ),
+                          const SizedBox(height: 16),
+                          TextFormField(
+                            controller: _passCtrl,
+                            obscureText: _obscure,
+                            decoration: InputDecoration(
+                              labelText: 'Password',
+                              prefixIcon: const Icon(Icons.lock_outlined),
+                              suffixIcon: IconButton(
+                                icon: Icon(_obscure ? Icons.visibility_off : Icons.visibility),
+                                onPressed: () => setState(() => _obscure = !_obscure),
+                              ),
+                            ),
+                            validator: (v) => v!.length < 6 ? 'Min. 6 karakter' : null,
+                          ),
+                          const SizedBox(height: 16),
+                          TextFormField(
+                            controller: _confirmCtrl,
+                            obscureText: _obscure,
+                            decoration: const InputDecoration(labelText: 'Konfirmasi Password', prefixIcon: Icon(Icons.lock_outlined)),
+                            validator: (v) => v != _passCtrl.text ? 'Password tidak cocok' : null,
+                          ),
+                          Consumer<AuthProvider>(builder: (_, auth, _) {
+                            if (auth.error != null) {
+                              return Padding(
+                                padding: const EdgeInsets.only(top: 12),
+                                child: Text(auth.error!, style: const TextStyle(color: Colors.red)),
+                              );
+                            }
+                            return const SizedBox.shrink();
+                          }),
+                          const SizedBox(height: 32),
+                          Consumer<AuthProvider>(builder: (_, auth, _) {
+                            return SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: auth.loading ? null : _register,
+                                child: auth.loading
+                                    ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
+                                    : const Text('Daftar Sekarang', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                              ),
+                            );
+                          }),
+                          const SizedBox(height: 32),
+                        ],
+                      ),
                     ),
                   ),
-                  validator: (v) => v!.length < 6 ? 'Min. 6 karakter' : null,
                 ),
-                const SizedBox(height: 16),
-                TextFormField(
-                  controller: _confirmCtrl,
-                  obscureText: _obscure,
-                  decoration: const InputDecoration(labelText: 'Konfirmasi Password', prefixIcon: Icon(Icons.lock_outlined)),
-                  validator: (v) => v != _passCtrl.text ? 'Password tidak cocok' : null,
-                ),
-                Consumer<AuthProvider>(builder: (_, auth, _) {
-                  if (auth.error != null) {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 12),
-                      child: Text(auth.error!, style: const TextStyle(color: Colors.red)),
-                    );
-                  }
-                  return const SizedBox.shrink();
-                }),
-                const SizedBox(height: 32),
-                Consumer<AuthProvider>(builder: (_, auth, _) {
-                  return ElevatedButton(
-                    onPressed: auth.loading ? null : _register,
-                    child: auth.loading
-                        ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-                        : const Text('Daftar Sekarang', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                  );
-                }),
-              ],
-            ),
+              );
+            },
           ),
         ),
       ),

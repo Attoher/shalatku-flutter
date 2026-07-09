@@ -21,7 +21,7 @@ class NotificationService {
       requestSoundPermission: true,
     );
     await _plugin.initialize(
-      const InitializationSettings(android: android, iOS: ios),
+      settings: const InitializationSettings(android: android, iOS: ios),
       onDidReceiveNotificationResponse: _onNotificationResponse,
     );
     
@@ -45,7 +45,6 @@ class NotificationService {
   }
 
   static void _onNotificationResponse(NotificationResponse notificationResponse) {
-    print('Notification tapped: ${notificationResponse.payload}');
   }
 
   static Future<void> _createNotificationChannels() async {
@@ -56,6 +55,7 @@ class NotificationService {
       description: 'Notifikasi jadwal shalat dan waktu penting',
       importance: Importance.max,
       playSound: true,
+      sound: RawResourceAndroidNotificationSound('adzan'),
       enableVibration: true,
       showBadge: true,
     );
@@ -84,20 +84,15 @@ class NotificationService {
     // Request POST_NOTIFICATIONS permission for Android 13+
     final status = await Permission.notification.request();
     if (status.isDenied) {
-      print('Notification permission denied');
     } else if (status.isGranted) {
-      print('Notification permission granted');
     } else if (status.isPermanentlyDenied) {
-      print('Notification permission permanently denied, opening app settings');
       openAppSettings();
     }
     
     // Request SCHEDULE_EXACT_ALARM permission
     final exactAlarmStatus = await Permission.scheduleExactAlarm.request();
     if (exactAlarmStatus.isGranted) {
-      print('Schedule exact alarm permission granted');
     } else {
-      print('Schedule exact alarm permission: ${exactAlarmStatus.toString()}');
     }
   }
 
@@ -110,7 +105,6 @@ class NotificationService {
   static Future<void> checkAndShowPrayerNotifications(List<PrayerTimeModel> prayers) async {
     final enabled = await _isNotificationsEnabled();
     if (!enabled) {
-      print('Notifications disabled by user');
       return;
     }
 
@@ -138,13 +132,12 @@ class NotificationService {
       
       if (minutos >= -60 && minutos <= 0) {
         // Prayer time has arrived! Show notification
-        print('PRAYER TIME: ${prayer.name} is now! Showing notification...');
         try {
           await _plugin.show(
-            i,
-            'Waktu ${prayer.name}',
-            prayerDescriptions[prayer.name] ?? 'Waktunya shalat ${prayer.name}',
-            NotificationDetails(
+            id: i,
+            title: 'Waktu ${prayer.name}',
+            body: prayerDescriptions[prayer.name] ?? 'Waktunya shalat ${prayer.name}',
+            notificationDetails: NotificationDetails(
               android: AndroidNotificationDetails(
                 'adzan_channel',
                 'Jadwal Shalat',
@@ -152,18 +145,19 @@ class NotificationService {
                 importance: Importance.max,
                 priority: Priority.high,
                 playSound: true,
+                sound: const RawResourceAndroidNotificationSound('adzan'),
                 enableVibration: true,
                 tag: 'shalat_${prayer.name}',
               ),
               iOS: const DarwinNotificationDetails(
                 presentAlert: true,
                 presentSound: true,
+                sound: 'adzan.caf',
               ),
             ),
           );
-          print('SUCCESS: Notification shown for ${prayer.name}');
         } catch (e) {
-          print('ERROR showing notification for ${prayer.name}: $e');
+          // Ignore notification errors in production
         }
       }
     }
@@ -174,10 +168,10 @@ class NotificationService {
     if (!enabled) return;
 
     await _plugin.show(
-      99,
-      'Pengingat Ibadah',
-      'Luangkan waktu untuk beribadah hari ini',
-      const NotificationDetails(
+      id: 99,
+      title: 'Pengingat Ibadah',
+      body: 'Luangkan waktu untuk beribadah hari ini',
+      notificationDetails: const NotificationDetails(
         android: AndroidNotificationDetails(
           'ibadah_channel',
           'Pengingat Ibadah',
